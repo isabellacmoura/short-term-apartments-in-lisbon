@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Short-term accommodation, where are they in Lisbon?</title>
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-size: 18px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      text-rendering: optimizeLegibility;
+      background: #f8f8f8;
+    }
+
+    p {
+      font-size: 17px;
+    }
+
+    /* Remover fundo branco dos containers principais */
+    .content,
+    .methodology-container,
+    .chart-section .container {
+      background: transparent !important;
+    }
+
+    .content {
+      max-width: 640px;
+      margin: 0 auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .header {
+      padding: 3em 0;
+    }
+
+    a {
+      color: #f05349;
+    }
+
+    .footer {
+      background: #f8f8f8;
+      text-align: center;
+      font-size: 0.8em;
+      margin-top: 4em;
+      padding: 1em 0;
+    }
+
+    figure {
+      margin: 0;
+      padding-bottom: 1.2em;
+    }
+
+    figcaption {
+      font-size: 0.8em;
+      text-align: center;
+      margin-top: 0.5em;
+      color: #666;
+    }
+
+    h1 {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-weight: normal;
+      font-size: 15px;
+      line-height: 1.2;
+      color: #1a1a1a;
+    }
+
+    .subhead {
+      font-family: 'Lora', Georgia, serif;
+    }
+
+    iframe,
+    img,
+    video {
+      max-width: 100%;
+    }
+
+    ul {
+      margin: 0;
+      padding-bottom: 1em;
+      line-height: 1.6;
+    }
+
+    iframe {
+      padding-bottom: 0;
+    }
+
+    .full-width figure {
+      text-align: center;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      background: #fff880;
+    }
+
+    /* margin on mobile */
+    @media (max-width: 640px) {
+      body {
+        font-size: 18px;
+      }
+
+      .content {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+      }
+    }
+  </style>
+  <link href="scrolly-styles.css" rel="stylesheet">
+  <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.2.0/scrollama.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/scrolly-video@latest/dist/scrolly-video.js"></script>
+</head>
+
+<body>
+  <!-- 1. Título inicial simples -->
+  <div class="intro-section">
+    <h1>New licenses are prohibited,<br>but how many streets in Lisbon<br>have short-term rentals?</h1>
+  </div>
+  
+  <!-- 2. Seção do scrolly de imagens -->
+  <section id="scrolly-images" class="scrolly-container">
+    <div class="sticky-thing">
+      <img src="image1.png">
+    </div>
+    <div class="steps-container">
+      <div class="step" id="step1"><div><p>This map of Lisbon shows all apartments registered as authorized short-term accommodations.</p></div></div>
+      <div class="step" id="step2"><div><p>The historic neighborhoods are the most affected. Santa Maria Maior, Misericórdia, Arroios, Santo António and São Vicente represent 12,679 of the 18,660 licensed units.</p></div></div>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const scroller = scrollama()
+
+      scroller
+        .setup({
+          parent: document.querySelector("#scrolly-images"),
+          step: ".step",
+          offset: 0.6,
+          debug: false,
+        })
+        .onStepEnter(function ({ element, index, direction }) {
+          const event = new CustomEvent("stepin", { detail: { direction: direction } })
+          element.dispatchEvent(event)
+        })
+        .onStepExit(function ({ element, index, direction }) {
+          const event = new CustomEvent("stepout", { detail: { direction: direction } })
+          if (direction === "up" && element.previousElementSibling) {
+            const event = new CustomEvent("stepin", { detail: { direction: direction } })
+            element.previousElementSibling.dispatchEvent(event)
+          }
+        })
+
+      window.addEventListener("resize", scroller.resize)
+    })()
+
+    d3.select("#step1").on('stepin', (e) => {
+      const img = d3.select(e.target.closest(".scrolly-container")).select("img");
+      img.style("transform", "scale(1)");
+      img.attr("src", "image1.png");
+    })
+    d3.select("#step2").on('stepin', (e) => {
+      const img = d3.select(e.target.closest(".scrolly-container")).select("img");
+      img.style("transform", "scale(1.2)");
+      img.attr("src", "image2.png");
+    })
+
+
+  </script>
+  
+  
+  <!-- 3. Título "The streets speak" -->
+  <div class="second-title-section">
+    <h1>The streets speak: there<br>is vacation rental<br>accommodation here</h1>
+    <p class="subtitle">There are more than 18,000 licenses issued in Lisbon,<br>with Santa Maria Maior and Misericórdia being the<br>boroughs with the most options. <br> <strong>By</strong> <a href="#" style="color: inherit; text-decoration: underline;">Isabella Moura</br> </a></p>
+  </div>
+
+  <!-- 4. Primeiro parágrafo -->
+  <div class="content">
+    <p style="text-align: justify; max-width: 600px; margin: 0 auto 20px auto;">Since October 2024, Lisbon City Council has stopped granting licenses for Local Accommodation in Lisbon, a measure proposed to try to curb the growth of this activity.</p>
+    
+    <p style="text-align: justify; max-width: 600px; margin: 0 auto 20px auto;">With the tourism boom, owners have withdrawn apartments from the conventional rental market and placed them in so-called "local accommodation." There are many mandatory signs that can be seen throughout the city, indicating that there is short-term accommodation in that building (accommodation commonly found on Airbnb or other rental platforms).</p>
+    
+    <p style="text-align: justify; max-width: 600px; margin: 0 auto 0 auto;">Although measures have been implemented to curb this, the annual increase in licenses over the last 10 years makes the current state of how housing is being exploited evident. Academic studies address this very issue, stating that local accommodation has altered the dynamics of access to housing <a href="https://repositorio.ulisboa.pt/bitstream/10451/54507/1/PBRIEF_Alojamento%20Local_com%20%281%29.pdf" style="color: #6699cc; text-decoration: underline;">[1]</a>, promoted changes in the local commercial network <a href="https://revistas.rcaap.pt/finisterra/article/view/24666" style="color: #6699cc; text-decoration: underline;">[2]</a>, and caused deep changes in the public space <a href="https://repositorio.iscte-iul.pt/bitstream/10071/30837/1/article_99501.pdf" style="color: #6699cc; text-decoration: underline;">[3]</a>.</p>
+  </div>
+
+  <!-- SEGUNDO SCROLLY -->
+  <section id="scrolly-dois" class="scrolly-container">
+    <div class="sticky-thing">
+      <img src="image3.png" id="scrolly2-img">
+    </div>
+    <div class="steps-container">
+      <div class="step" id="stepA">
+        <div></div>
+      </div>
+      <div class="step" id="stepB">
+        <div></div>
+      </div>
+      <div class="step" id="stepC">
+        <div></div>
+      </div>
+      <div class="step" id="stepD">
+        <div></div>
+      </div>
+      <div class="step" id="stepE">
+        <div></div>
+      </div>
+      <div class="step" id="stepF">
+        <div></div>
+      </div>
+      <div class="step" id="stepG">
+        <div></div>
+      </div>
+      <div class="step" id="stepH">
+        <div></div>
+      </div>
+      <div class="step" id="stepI">
+        <div></div>
+      </div>
+      <div class="step" id="stepJ">
+        <div></div>
+      </div>
+      <div class="step" id="stepK">
+        <div></div>
+      </div>
+      <div class="step" id="stepL">
+        <div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // SCROLLY-DOIS
+    (() => {
+      const scroller2 = scrollama()
+
+      scroller2
+        .setup({
+          parent: document.querySelector("#scrolly-dois"),
+          step: "#scrolly-dois .step",
+          offset: 0.6,
+          debug: false,
+        })
+        .onStepEnter(function ({ element, index, direction }) {
+          const event = new CustomEvent("stepin", { detail: { direction: direction } })
+          element.dispatchEvent(event)
+        })
+        .onStepExit(function ({ element, index, direction }) {
+          const event = new CustomEvent("stepout", { detail: { direction: direction } })
+          if (direction === "up" && element.previousElementSibling) {
+            const event = new CustomEvent("stepin", { detail: { direction: direction } })
+            element.previousElementSibling.dispatchEvent(event)
+          }
+        })
+
+      window.addEventListener("resize", scroller2.resize)
+    })()
+
+    // Eventos do segundo scrolly
+    d3.select("#stepA").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image3.png");
+    });
+    d3.select("#stepB").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image4.png");
+    });
+    d3.select("#stepC").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image5.png");
+    });
+    d3.select("#stepD").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image6.png");
+    });
+    d3.select("#stepE").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image7.png");
+    });
+    d3.select("#stepF").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image8.png");
+    });
+    d3.select("#stepG").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image9.png");
+    });
+    d3.select("#stepH").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image10.png");
+    });
+    d3.select("#stepI").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image11.png");
+    });
+    d3.select("#stepJ").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image12.png");
+    });
+    d3.select("#stepK").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image13.png");
+    });
+    d3.select("#stepL").on('stepin', (e) => {
+      d3.select("#scrolly2-img").attr("src", "image13.png");
+    });
+  </script>
+
+  <!-- 5. Segundo parágrafo -->
+  <div class="content">
+    <p style="text-align: justify; max-width: 600px; margin: 0 auto 20px auto;">It was in 2018 that the peak in approved license applications was recorded, contributing to the distribution of more than 18,000 places throughout the city of Lisbon. Currently, the sum of all licenses indicates a capacity to accommodate 108,000 people in more than 70,000 beds. To find out if there is accommodation in a particular place, there must be a sign with "AL (Alojamento Local)" written on the building or on the door of the floor.</p>
+    
+    <p style="text-align: justify; max-width: 600px; margin: 0 auto 0 auto;">To view the number of accommodations on each street in Lisbon, this tool allows you to filter and indicates how many accommodations there are. Try searching for the name of your street or, before that, try "Avenida Almirante Reis," the street with the most local accommodations in Lisbon, or Avenida d João II or Rua do Fanqueiros, the streets that complete the Top 3.</p>
+  </div>
+
+  <!-- 5. App Svelte -->
+  <div class="svelte-app-container">
+    <iframe
+    src="svelte/index.html"
+    width="100%"
+    height="600px"
+    style="border: none;"
+    title="App Svelte"
+    sandbox="allow-scripts allow-same-origin allow-forms"
+  ></iframe>
+  </div>
+
+
+
+  <!-- Chart -->
+  <div class="chart-section">
+    <h1>Percentage of streets/parishes with short-term rentals</h1>
+    <p style="text-align: justify; max-width: 600px; margin: 30px auto 30px auto;">If your street has local accommodations, don't be surprised. 49% of Lisbon's streets have local accommodations. These are all the parishes in Lisbon with the percentage of streets in the parish with at least one local accommodation.</p>
+    <div class="chart-container">
+      <svg id="chart"></svg>
+    </div>
+    <div class="tooltip"></div>
+  </div>
+
+  <!-- 8. Seção de Metodologia -->
+  <div class="methodology-section">
+    <div class="methodology-container">
+      <h3>Some notes on data cleaning</h3>
+      <div class="methodology-content">
+        <p>There are more than 18,000 addresses with local accommodation in Lisbon. The data cleaning process was the most time-consuming step, as there is no standard for addresses and they are entered spontaneously without following an internal database. Many addresses provided contained typing and spelling errors that made it difficult to match them with official streets. A concrete example: In some parishes, the total number of official streets in the parish was lower than the number of streets with local accommodation in that same parish.</p>
+        
+        <p>In addition, it is important to mention two facts:</p>
+        
+        <ul>
+          <li>49 records do not have an address that can be identified.</li>
+          <li>330 records do not indicate the building number of the accommodation, only the street name.</li>
+        </ul>
+        
+        <p>The final, cleaned, and structured data is available <a href="https://github.com/isabellacmoura/short-term-apartments-in-lisbon" class="methodology-link">here</a> and can be reused and improved.</p>
+        
+        <h3>Methodology</h3>
+        
+        <p><strong>For cleaning:</strong> Python using FuzzyWuzzy library, capable of comparing the address provided at the time of the license application with the official streets of Lisbon. This made it possible to standardize the streets. Regex to improve the DF, eliminating columns and creating new ones.</p>
+        
+        <p><strong>For analysis:</strong> Pandas, for statistical analysis, and Matplotlib for support visualizations.</p>
+        
+        <p><strong>For visualization:</strong> The records were visually observed in Qgis and then enhanced in Illustrator.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="content">
+      <p style="font-size: 12px; color: #666; text-align: center; margin: 0; padding: 20px 0;">  Project under The Lede Program: An Introduction to Data Practices, Columbia Journalism School(July 2025).</p>
+    </div>
+  </div>
+
+  <script>
+    /*
+    Different videos need different things - does the reader need to see
+    the entire screen of the video, or you want to make sure it covers the
+    entire window?
+
+    You can experiment with yours by removing the // from the full and
+    cover options below to see how it looks with your videos. 
+   
+    You can see parameters at 
+    https://github.com/dkaoster/scrolly-video?tab=readme-ov-file#-options--attributes
+
+    You might also need to adjust object-fit being 'cover' vs 'contain' in the CSS below
+
+    Be sure to check mobile!!
+    */
+    // Inicializar ScrollyVideo
+    const container = document.querySelector("#scrolly-video .sticky-thing");
+    
+    if (container && typeof ScrollyVideo !== 'undefined') {
+      new ScrollyVideo({
+        scrollyVideoContainer: container,
+        src: "al.mp4",
+        full: true,
+        cover: true
+      });
+    } else {
+      // Fallback: vídeo simples se ScrollyVideo não estiver disponível
+      if (container) {
+        const video = document.createElement('video');
+        video.src = "al.mp4";
+        video.controls = true;
+        video.style.width = "100%";
+        video.style.height = "100%";
+        video.style.objectFit = "cover";
+        container.appendChild(video);
+      }
+    }
+
+    // Gráfico de Freguesias
+    // Dados das freguesias
+    const data = [
+      { name: "Ajuda", percentage: 33.68, ruas: 190 },
+      { name: "Alcântara", percentage: 47.66, ruas: 107 },
+      { name: "Alvalade", percentage: 47.54, ruas: 183 },
+      { name: "Areeiro", percentage: 43.55, ruas: 124 },
+      { name: "Arroios", percentage: 76.75, ruas: 228 },
+      { name: "Avenidas Novas", percentage: 56.35, ruas: 126 },
+      { name: "Beato", percentage: 34.02, ruas: 97 },
+      { name: "Belém", percentage: 30.71, ruas: 254 },
+      { name: "Benfica", percentage: 20.77, ruas: 183 },
+      { name: "Campo de Ourique", percentage: 57.58, ruas: 99 },
+      { name: "Campolide", percentage: 26.67, ruas: 120 },
+      { name: "Carnide", percentage: 17.12, ruas: 146 },
+      { name: "Estrela", percentage: 70.0, ruas: 180 },
+      { name: "Lumiar", percentage: 24.19, ruas: 248 },
+      { name: "Marvila", percentage: 25.0, ruas: 152 },
+      { name: "Misericórdia", percentage: 83.01, ruas: 206 },
+      { name: "Olivais", percentage: 40.59, ruas: 170 },
+      { name: "Parque das Nações", percentage: 28.93, ruas: 197 },
+      { name: "Penha de França", percentage: 65.0, ruas: 120 },
+      { name: "Santa Clara", percentage: 9.85, ruas: 132 },
+      { name: "Santa Maria Maior", percentage: 74.47, ruas: 376 },
+      { name: "Santo António", percentage: 74.44, ruas: 133 },
+      { name: "São Domingos de Benfica", percentage: 40.74, ruas: 162 },
+      { name: "São Vicente", percentage: 85.11, ruas: 141 }
+    ];
+
+    // Ordenar por percentagem decrescente
+    data.sort((a, b) => b.percentage - a.percentage);
+
+    // Configurações do gráfico
+    const margin = { top: 40, right: 20, bottom: 20, left: 20 };
+    const gridSize = 10; // 10x10 grid = 100 squares
+    const squareSize = 10;
+    const gridSpacing = 20;
+    const cols = 5;
+    const rows = Math.ceil(data.length / cols);
+    
+    const totalWidth = cols * (gridSize * squareSize + gridSpacing) + margin.left + margin.right;
+    const totalHeight = rows * (gridSize * squareSize + 60) + margin.top + margin.bottom;
+
+    // Criar SVG
+    const svg = d3.select("#chart")
+      .attr("width", totalWidth)
+      .attr("height", totalHeight);
+
+    // Tooltip
+    const tooltip = d3.select(".tooltip");
+
+    // Função para criar grade para cada freguesia
+    function createGrid(selection, d, index) {
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+      const x = col * (gridSize * squareSize + gridSpacing) + margin.left;
+      const y = row * (gridSize * squareSize + 60) + margin.top;
+      
+      const g = selection.append("g")
+        .attr("transform", `translate(${x}, ${y})`);
+
+      // Nome da freguesia
+      g.append("text")
+        .attr("class", "grid-title")
+        .attr("x", (gridSize * squareSize) / 2)
+        .attr("y", -15)
+        .text(d.name);
+
+      // Porcentagem
+      g.append("text")
+        .attr("class", "grid-percentage")
+        .attr("x", (gridSize * squareSize) / 2)
+        .attr("y", -5)
+        .text(`${d.percentage}%`);
+
+      // Calcular quantos quadrados preencher (de 64 total)
+      const totalSquares = gridSize * gridSize;
+      const filledSquares = Math.round((d.percentage / 100) * totalSquares);
+
+      // Criar quadrados
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          const squareIndex = i * gridSize + j;
+          const isFilled = squareIndex < filledSquares;
+          
+          g.append("rect")
+            .attr("class", `grid-square ${isFilled ? 'filled' : 'empty'}`)
+            .attr("x", j * squareSize)
+            .attr("y", i * squareSize)
+            .attr("width", squareSize)
+            .attr("height", squareSize)
+            .on("mouseover", function(event) {
+              tooltip
+                .style("opacity", 1)
+                .html(`${d.name} has ${d.ruas} official streets.`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+              tooltip.style("opacity", 0);
+            });
+        }
+      }
+    }
+
+    // Criar gráfico
+    data.forEach((d, i) => {
+      createGrid(svg, d, i);
+    });
+
+    // Inicialmente esconder todos os quadrados
+    svg.selectAll(".grid-square")
+      .style("opacity", 0);
+
+    // Função para animar o gráfico quando entrar na viewport
+    function animateChart() {
+      // Animar todos os elementos ao mesmo tempo
+      svg.selectAll(".grid-title, .grid-percentage, .grid-square")
+        .transition()
+        .duration(600)
+        .style("opacity", 1);
+    }
+
+    // Observer para detectar quando o gráfico entra na viewport
+    const chartObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateChart();
+          chartObserver.unobserve(entry.target); // Só anima uma vez
+        }
+      });
+    }, {
+      threshold: 0.3, // Anima quando 30% do gráfico está visível
+      rootMargin: "0px 0px -100px 0px" // Margem para começar a animação um pouco antes
+    });
+
+    // Observar a seção do gráfico
+    const chartSection = document.querySelector(".chart-section");
+    if (chartSection) {
+      chartObserver.observe(chartSection);
+    }
+
+    // Adicionar interatividade adicional
+    svg.selectAll(".grid-square.filled")
+      .on("click", function(event, d) {
+        d3.select(this)
+          .transition()
+          .duration(700)
+          .attr("transform", "scale(1.1)")
+          .transition()
+          .duration(700)
+          .attr("transform", "scale(1)");
+      });
+
+
+  </script>
+
+  <style>
+    /* Scrolly containers */
+    .scrolly-container {
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sticky-thing {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f8f8;
+    }
+
+    .steps-container {
+      position: relative;
+      z-index: 10;
+    }
+
+    .step {
+      margin-bottom: 80vh;
+      position: relative;
+    }
+
+    .step > div {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* 1. Título inicial simples */
+    .intro-section {
+      background: #f8f8f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .intro-section h1 {
+      font-size: 22px;
+      margin: 0;
+      line-height: 1.2;
+      font-weight: normal;
+      color: #999;
+      letter-spacing: -0.02em;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      max-width: 800px;
+    }
+
+    /* 2. Scrolly de imagens */
+    #scrolly-images .sticky-thing {
+      background: #f8f8f8;
+      width: 100%;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    #scrolly-video .step {
+      height: 100vh;
+      margin-bottom: 0;
+    }
+
+    #scrolly-video .sticky-thing > canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .second-title-section {
+      background: #f8f8f8;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .second-title-section h1 {
+      font-size: 2.5rem;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.2;
+      font-weight: bold;
+      color: #1a1a1a;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .second-title-section .subtitle {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.5;
+      margin: 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 5. App Svelte */
+    .svelte-app-container {
+      margin: -6.2rem;
+      padding: 0;
+      text-align: left;
+      display: block;
+      background: #f8f8f8;
+    }
+
+    .svelte-app-container iframe {
+      box-shadow: none;
+      border-radius: 0;
+      margin: 0rem;
+      padding: 0;
+      background: transparent !important;
+      opacity: 1;
+    }
+
+    /* Forçar transparência do iframe */
+    .svelte-app-container iframe {
+      background-color: transparent !important;
+      background-image: none !important;
+      background: transparent !important;
+    }
+
+    /* Remover qualquer fundo branco do iframe */
+    iframe {
+      background: transparent !important;
+    }
+
+    /* 6. Gráfico de Freguesias */
+    .chart-section {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #f8f8f8;
+    }
+
+    .chart-section h1 {
+      text-align: center;
+      color: #1a1a1a;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      line-height: 1.2;
+      font-weight: bold;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .chart-section .chart-container {
+      text-align: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .chart-section .grid-title {
+      font-size: 12px;
+      font-weight: bold;
+      text-anchor: middle;
+      fill: #333;
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+    }
+
+    .chart-section .grid-percentage {
+      font-size: 12px;
+      font-weight: normal;
+      text-anchor: middle;
+      fill: #666;
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+    }
+
+    .chart-section .grid-square {
+      stroke: #e0e0e0;
+      stroke-width: 0.5;
+    }
+
+    .chart-section .filled {
+              fill: #c45856;
+    }
+
+    .chart-section .empty {
+      fill: #e0e0e0;
+    }
+
+    .chart-section .tooltip {
+      position: absolute;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* 8. Seção de Metodologia */
+    .methodology-section {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #f8f8f8;
+    }
+
+    .methodology-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 0;
+      box-shadow: none;
+      border: 1px solid #6699cc;
+    }
+
+
+
+    /* Apenas títulos dentro da metodologia */
+    .methodology-section h2,
+    .methodology-section h3 {
+      text-align: center;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      font-size: 15px;
+      font-weight: bold;
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+
+    .methodology-content {
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .methodology-content p {
+      margin-bottom: 1rem;
+      text-align: justify;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .methodology-content strong {
+      font-weight: bold;
+    }
+
+    .highlight {
+      background: #6699cc;
+      color: white;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .methodology-link {
+      color: #6699cc;
+      text-decoration: underline;
+    }
+
+    .methodology-content ul {
+      text-align: justify;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .methodology-content, .methodology-content p {
+      font-size: 15px !important;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 640px) {
+      .intro-section h1 {
+        font-size: 1.8rem;
+      }
+      
+      #scrolly-second-title h1 {
+        font-size: 2rem;
+      }
+      
+      .step > div {
+        padding: 1.5rem;
+        max-width: 90%;
+      }
+      
+      .step {
+        height: 100vh;
+        margin-bottom: 0;
+      }
+    }
+
+    /* Estilos específicos para o segundo scrolly */
+    #scrolly-dois .step {
+      margin-bottom: 80vh;
+    }
+  </style>
+
+
+
+</body>
+</html>
